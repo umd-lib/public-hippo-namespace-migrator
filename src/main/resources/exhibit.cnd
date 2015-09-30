@@ -1,0 +1,13 @@
+<'exhibit'='http://lib.umd.edu/exhibit/2.0'>
+<'hippo'='http://www.onehippo.org/jcr/hippo/nt/2.0.4'>
+<'hippostd'='http://www.onehippo.org/jcr/hippostd/nt/2.0'>
+<'hippostdpubwf'='http://www.onehippo.org/jcr/hippostdpubwf/nt/1.0'>
+
+[exhibit:basedocument] > hippo:document, hippostd:publishableSummary, hippostdpubwf:document
+  orderable
+
+[exhibit:bodyblock] > hippo:compound, hippostd:relaxed
+  orderable
+
+[exhibit:exhibitpage] > exhibit:basedocument, hippostd:relaxed
+  orderable

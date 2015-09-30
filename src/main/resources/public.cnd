@@ -1,0 +1,65 @@
+<'hippo'='http://www.onehippo.org/jcr/hippo/nt/2.0.4'>
+<'hippostd'='http://www.onehippo.org/jcr/hippostd/nt/2.0'>
+<'hippostdpubwf'='http://www.onehippo.org/jcr/hippostdpubwf/nt/1.0'>
+<'nt'='http://www.jcp.org/jcr/nt/1.0'>
+<'public'='http://www.onehippo.org/public/nt/2.0'>
+
+[public:URL] > hippo:compound, hippostd:relaxed
+  orderable
+
+[public:basedocument] > hippo:document, hippostd:publishableSummary, hippostdpubwf:document
+  orderable
+
+[public:bookmark] > nt:base
+  - public:username (string) mandatory multiple
+
+[public:bookmarkable]
+  mixin
+  + public:bookmark (public:bookmark)
+
+[public:categorypair] > hippo:compound, hippostd:relaxed
+  orderable
+
+[public:college_school] > hippostd:relaxed, public:basedocument
+  orderable
+
+[public:database] > hippostd:relaxed, public:basedocument
+  orderable
+
+[public:folderprops] > hippostd:relaxed, public:basedocument
+  orderable
+
+[public:hours] > hippostd:relaxed, public:basedocument
+  orderable
+
+[public:hourswf] > hippostd:folder
+  orderable mixin
+  - public:googleCalendarId (string)
+  - public:googleProjectName (string)
+  - public:googleServiceAccountP12KeyFileName (string)
+  - public:googleServiceAccountEmailAddr (string)
+
+[public:html] > hippostd:relaxed, public:basedocument
+  orderable
+
+[public:htmlfragmentblock] > hippo:compound, hippostd:relaxed
+  orderable
+
+[public:htmlfragmentlist] > hippostd:relaxed, public:basedocument
+  orderable
+
+[public:location] > hippostd:relaxed, public:basedocument
+  orderable
+
+[public:news] > hippostd:relaxed, public:basedocument
+  orderable
+
+[public:staff] > hippostd:relaxed, public:basedocument
+  orderable
+
+[public:subject] > hippostd:relaxed, public:basedocument
+  orderable
+
+[public:textdocument] > hippostd:relaxed, public:basedocument
+  orderable
+
