@@ -1,0 +1,57 @@
+The utility is used as part of upgrading UMD Hippo CMS to 7.9.8-0 from 7.8.9-3.
+The exhibit:bobyblock and public:htmlfragmentblock namespaces are changed and the migration
+utility is used to update the content of these two document types.
+
+The namespace URL of exhibit is promoted from 'http://lib.umd.edu/exhibit/1.0' to 'http://lib.umd.edu/exhibit/2.0'.
+The namespace URL of public is promoted from 'http://www.onehippo.org/public/nt/1.0' to 'http://www.onehippo.org/public/nt/2.0'.
+
+To build the utility, check out code from git@github.com:umd-lib/public-hippo-namespace-migrator.git.
+Use maven to build and package distribution to server.
+   
+   % mvn clean install
+   % mvn -P migration-dist
+   % scp target/public-hippo-upgrade-7.9-<version>-migration-distribution.tar.gz <server-host>:<destination>
+
+1. Un-tar the ditribution to any folder (ex, /apps/cms/temp)
+   
+   % cd /apps/cms/temp
+   % tar zxvf public-hippo-upgrade-7.9-<version>-migration-distribution.tar.gz
+
+2. Copy postgres library
+
+   % cd migration
+   % cp /apps/cms/tomcat-cms/common/lib/postgresql-8.4-702.jdbc4.jar .
+
+3. Change property file for performing upgrade for some namespace.
+
+   % vi migration.properties
+   
+   Change the properties to either one:
+   migration.cnd=exhibit.cnd						migration.cnd=public.cnd
+   migration.updater=edu.umd.lib.hippo.update.ExhibitUpdater		migration.updater=edu.umd.lib.hippo.update.PublicUpdater
+
+4. Stop apache and tomcat's
+
+   % cd /apps/cms
+   % ./control stop
+
+5. Clean up workspace for tomcat-cms
+
+   % cd /apps/cms/storage-cms/workspaces
+   % rm -rf *
+
+6. Execute the migrations
+
+   % bash run-migration
+
+7. If successful, clean up workspace for tomcat-cms
+
+   % cd /apps/cms/storage-cms/workspaces
+   % rm -rf *
+
+8. Start Hippo website
+
+   % cd /apps/cms
+   % ./control start
+
+9. After cheking the website, repeat from 3 to 8 for another namespace.
