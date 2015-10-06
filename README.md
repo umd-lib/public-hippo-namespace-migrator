@@ -8,40 +8,75 @@ The namespace migrator tool provided by Hippo will allow the user to make the ch
 
 First review the Hippo page on the [namespace migrator tool](http://www.onehippo.org/library/upgrade/namespace-migration.html).
 
-Fashion a new cnd file with the properties set as you would wish them.  This will also need to have a different URI for the namespace that you wish to change.  Often just incrementing the version number in the URI accomplishes this.
+Fashion a new cnd file with the properties set as you would wish them.  The cnd file exported from the repository itself is often the best starting point. after the alterations to the cnd are made, the namespace URI will need to be changed.  There will also need to be a different URI for the namespace that you wish to change.  Often just incrementing the version number in the URI accomplishes this.
 
-Load the Hippo Migrator tool into your IDE as a project.
+We have already created 2, one for the change of the exhibit namespace and the public namespace.
 
-Ceate a java class in your IDE that extends the Basic Updater.  This will test for the changing properties from your corrected namesace.  Within the blocks associated with each node of interest you can code the change of Primary Type, delete properties, and add properties that may be required as the change in the namespace dictates.
+This utility is used as part of upgrading UMD Hippo CMS to 7.9.8-0 from 7.8.9-3.
+The exhibit:bobyblock and public:htmlfragmentblock namespace entries are changed and the migration
+utility is used to update the content of these two document types.
 
-Initially the migration is likely to fail or require adjustments and each run can seriously corrupt the repository.  You should make a local copy of the repository to work on until the code is tested and the migration is successful.
+The namespace URL of exhibit is promoted from 'http://lib.umd.edu/exhibit/1.0' to 'http://lib.umd.edu/exhibit/2.0'.
+The namespace URL of public is promoted from 'http://www.onehippo.org/public/nt/1.0' to 'http://www.onehippo.org/public/nt/2.0'.
 
-Compile the jar file and place it in the file system with your repository.  It does not have to be in any particular location a it is really a self contained utility.
+Check the updater that you are going to be using and look at the nodes that need to be changed.  There may need to be additional properties and subnodes that need to be deleted before the change or added after the change.  Many of these can be incorporated into the updater (either before or after a primary type or mixin change).  Some are too difficult for the updater to manage and must be accomplished manually or through other updaters before the namespace migrator can be run.
 
-Run the main class in th jar file with the "props" and then "conf" arguments as explained in the Hippo document or the document resulting from the "help" argument.  This will create the sample properties and configuration files.  Modify the files to use them against your repository.
+To build the utility, check out code from git@github.com:umd-lib/public-hippo-namespace-migrator.git.
 
-```
-java -cp "migrater.jar:postgresql-8.4-702.jdbc4.jar" org.onehippo.cms7.repository.migration.Main help
-java -cp "migrater.jar:postgresql-8.4-702.jdbc4.jar" org.onehippo.cms7.repository.migration.Main props > migration.properties
-java -cp "migrater.jar:postgresql-8.4-702.jdbc4.jar" org.onehippo.cms7.repository.migration.Main conf > migration.repository.xml
-```
+Make any necessary changes to the updaters or the cnd files.
 
-- You will probably need to add the 3 jackrabit repository access variables to the properties file (rep.home, wsp.name, and wsp.home).
-- Replace the cnd reference and the updater class in the properties file to use the ones you created.
-- Try to use only the elements supplied in the sample repository.xml as other elements are generally not needed and my hamper the jar file.
-- The Resources branch contain a properties file and a repository.xml hat worked for the UMD postgres repository.  It is missing a few crucial db name, password, and account name values to actually work.
+Use maven to build and package distribution to server.
+   
+       mvn clean install
+       mvn -P migration-dist
+       scp target/public-hippo-upgrade-7.9-<version>-migration-distribution.tar.gz <server-host>:<destination>
 
-Before running the jar with the migrate argument, clear out the workspaces directory or the default workspace values there will cause the migration to fail.
+1. Un-tar the ditribution to any folder (ex, /apps/cms/temp)
+   
+        cd /apps/cms/temp
+        tar zxvf public-hippo-upgrade-7.9-<version>-migration-distribution.tar.gz
 
-Now run the migration noting where the migration failed due to properties being either absent or present.  All running processes that access the repository need to be shut down.  The migrator can't run against a repository that other processes are accessing.
+2. Copy postgres library
 
-```
-java -cp "migrater.jar:postgresql-8.4-702.jdbc4.jar" org.onehippo.cms7.repository.migration.Main migrate
-```
+        cd migration
+        cp /apps/cms/tomcat-cms/common/lib/postgresql-8.4-702.jdbc4.jar .
 
 
-Modify your updater, rercompile the jar, place it in line to execute, reload the repository, and clear out the workspace to try out the fixes.  Repeat until the repository is cleanly migrated.
+3. Fill out the postgres connection properties in migration-repository.xml.  "XXXX" must be replaced for the database name, account, and password entries.
 
-Once everything is set, either run the migration locally and install the new repository on the server or run the migration against the server in place.
+4. Change property file for performing upgrade for some namespace.
 
-After running the migration and correcting the repository, rebuild the indexes and clear out the workspaces before restarting the cms and site.  On the local environment, just clearing the workspaces will cause the indexes to be rebuilt.
+        vi migration.properties
+   
+   Change the properties to either one:
+       - migration.cnd=exhibit.cnd
+       - migration.cnd=public.cnd
+       - migration.updater=edu.umd.lib.hippo.update.ExhibitUpdater
+       - migration.updater=edu.umd.lib.hippo.update.PublicUpdater
+
+5. Stop apache and tomcat's or any other utilities that might be accessing the repository.
+
+        cd /apps/cms
+        ./control stop
+
+6. Clean up workspace for tomcat-cms
+
+        cd /apps/cms/storage-cms/workspaces
+        rm -rf *
+
+7. Execute the migrations
+
+        cd /apps/cms/temp
+        bash run-migration
+
+8. If successful, clean up workspace for tomcat-cms.  If the indexes are not in the workspace then go to where they are and delete them in order for them to be recreated.
+
+        cd /apps/cms/storage-cms/workspaces
+        rm -rf *
+
+9. Start Hippo website
+
+        cd /apps/cms
+        ./control start
+
+9. After cheking the website, repeat from 4 to 9 for another namespace.
