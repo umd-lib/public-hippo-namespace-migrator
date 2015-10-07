@@ -8,9 +8,9 @@
   <includeBaseDirectory>false</includeBaseDirectory>
   <files>
     <file>
-      <source>target/public-hippo-upgrade-7.9-${version}.jar</source>
+      <source>target/public-migrator-${version}.jar</source>
       <outputDirectory>/migration</outputDirectory>
-      <destName>public-hippo-upgrade-7.9-${version}.jar</destName>
+      <destName>public-migrator-${version}.jar</destName>
     </file>
     <file>
       <source>src/main/resources/exhibit.cnd</source>
@@ -33,9 +33,9 @@
       <destName>migration.properties</destName>
     </file>
     <file>
-      <source>README</source>
+      <source>README.md</source>
       <outputDirectory>/migration</outputDirectory>
-      <destName>README</destName>
+      <destName>README.md</destName>
     </file>
     <file>
       <source>target/bin/run-migration</source>

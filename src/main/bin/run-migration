@@ -1,1 +1,1 @@
-$JAVA_HOME/bin/java -cp "public-hippo-upgrade-7.9-${pom.version}.jar:postgresql-8.4-702.jdbc4.jar" org.onehippo.cms7.repository.migration.Main migrate
+$JAVA_HOME/bin/java -cp "public-migrator-${pom.version}.jar:postgresql-8.4-702.jdbc4.jar" org.onehippo.cms7.repository.migration.Main migrate

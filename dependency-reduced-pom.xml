@@ -8,8 +8,8 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>edu.umd.lib.hippo</groupId>
-  <artifactId>public-hippo-upgrade-7.9</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <artifactId>public-migrator</artifactId>
+  <version>7.9.8-0-SNAPSHOT</version>
   <build>
     <plugins>
       <plugin>
