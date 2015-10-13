@@ -49,7 +49,6 @@
         <!-- Build an executable JAR -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.4</version>
         <configuration>
           <archive>
             <manifest>
@@ -97,7 +96,7 @@
   
   <profiles>
     <profile>
-      <id>migration-dist</id>
+      <id>migrator-dist</id>
       <dependencies>
       </dependencies>
       <build>
@@ -107,14 +106,14 @@
             <artifactId>maven-assembly-plugin</artifactId>
             <executions>
               <execution>
-                <id>migration-assembly</id>
+                <id>migrator-assembly</id>
                 <phase>validate</phase>
                 <goals>
                   <goal>single</goal>
                 </goals>
                 <configuration>
                   <descriptors>
-                    <descriptor>${project.basedir}/src/main/assembly/migration-distribution.xml
+                    <descriptor>${project.basedir}/src/main/assembly/migrator-distribution.xml
                     </descriptor>
                   </descriptors>
                 </configuration>

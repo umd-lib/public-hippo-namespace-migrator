@@ -1,7 +1,7 @@
 <assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
-  <id>migration-distribution</id>
+  <id>migrator-distribution</id>
   <formats>
     <format>tar.gz</format>
   </formats>
@@ -9,37 +9,37 @@
   <files>
     <file>
       <source>target/public-migrator-${version}.jar</source>
-      <outputDirectory>/migration</outputDirectory>
+      <outputDirectory>/migrator</outputDirectory>
       <destName>public-migrator-${version}.jar</destName>
     </file>
     <file>
       <source>src/main/resources/exhibit.cnd</source>
-      <outputDirectory>/migration</outputDirectory>
+      <outputDirectory>/migrator</outputDirectory>
       <destName>exhibit.cnd</destName>
     </file>
     <file>
       <source>src/main/resources/public.cnd</source>
-      <outputDirectory>/migration</outputDirectory>
+      <outputDirectory>/migrator</outputDirectory>
       <destName>public.cnd</destName>
     </file>
     <file>
       <source>src/main/resources/migration-repository.xml</source>
-      <outputDirectory>/migration</outputDirectory>
+      <outputDirectory>/migrator</outputDirectory>
       <destName>migration-repository.xml</destName>
     </file>
     <file>
       <source>src/main/resources/migration.properties</source>
-      <outputDirectory>/migration</outputDirectory>
+      <outputDirectory>/migrator</outputDirectory>
       <destName>migration.properties</destName>
     </file>
     <file>
-      <source>README.md</source>
-      <outputDirectory>/migration</outputDirectory>
-      <destName>README.md</destName>
+      <source>README</source>
+      <outputDirectory>/migrator</outputDirectory>
+      <destName>README</destName>
     </file>
     <file>
       <source>target/bin/run-migration</source>
-      <outputDirectory>/migration</outputDirectory>
+      <outputDirectory>/migrator</outputDirectory>
       <destName>run-migration</destName>
     </file>
   </files>

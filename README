@@ -26,32 +26,43 @@ Use maven to build and package distribution to server.
 
    % vi migration.properties
    
-   Change the properties to either one:
-   migration.cnd=exhibit.cnd						migration.cnd=public.cnd
-   migration.updater=edu.umd.lib.hippo.update.ExhibitUpdater		migration.updater=edu.umd.lib.hippo.update.PublicUpdater
+   Change the properties to either one.
+   For migrating exhibit namespace,
+   migration.cnd=exhibit.cnd	
+   migration.updater=edu.umd.lib.hippo.update.ExhibitUpdater
 
-4. Stop apache and tomcat's
+   For migrating public namespace,
+   migration.cnd=public.cnd
+   migration.updater=edu.umd.lib.hippo.update.PublicUpdater
+
+4. Modify migration-repository.xml
+   Provide correct parameters for connecting to database.
+   <param name="url" value="jdbc:postgresql://localhost:5432/XXXX"/>
+   <param name="user" value="XXXX"/>
+   <param name="password" value="XXXX"/>
+
+5. Stop apache and tomcat's
 
    % cd /apps/cms
    % ./control stop
 
-5. Clean up workspace for tomcat-cms
+6. Clean up workspace for tomcat-cms
 
    % cd /apps/cms/storage-cms/workspaces
-   % rm -rf *
+   % rm -rf default
 
-6. Execute the migrations
+7. Execute the migrations
 
    % bash run-migration
 
-7. If successful, clean up workspace for tomcat-cms
+8. If successful, clean up workspace for tomcat-cms
 
    % cd /apps/cms/storage-cms/workspaces
-   % rm -rf *
+   % rm -rf default
 
-8. Start Hippo website
+9. Start Hippo website
 
    % cd /apps/cms
    % ./control start
 
-9. After cheking the website, repeat from 3 to 8 for another namespace.
+10. After cheking the website, repeat from 3 to 8 for another namespace.
