@@ -2,6 +2,8 @@ package edu.umd.lib.hippo.update;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+import javax.jcr.version.VersionManager;
 
 import org.onehippo.cms7.repository.migration.BasicUpdater;
 
@@ -20,6 +22,13 @@ public class PublicUpdater extends BasicUpdater {
     final String primaryNodeTypeName = node.getPrimaryNodeType().getName();
     if (primaryNodeTypeName.equals(getOldNamespacePrefix()
         + ":htmlfragmentblock")) {
+
+      Session session = node.getSession();
+      VersionManager versionManager = session.getWorkspace()
+          .getVersionManager();
+      if (!node.isCheckedOut()) {
+        versionManager.checkout(node.getParent().getPath());
+      }
 
       /*
        * Relaxed nodes may not be unstructured So, if it is not relaxed, then
