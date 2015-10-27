@@ -23,7 +23,7 @@
     <dependency>
       <groupId>org.onehippo.cms7</groupId>
       <artifactId>hippo-migrator</artifactId>
-      <version>1.01.00</version>
+      <version>1.01.01</version>
     </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
